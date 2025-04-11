@@ -33,7 +33,7 @@ class Database {
     }
 
     public function Update($table, $id, $data) {
-        $columns = implode(", ",array_map( function ($v) { return "'$v'"; }, array_values($data)));
+        $columns = implode(", ",array_map( function ($k, $v) { return "{$k}='{$v}'"; }, array_keys($data), array_values($data)));
         $sql = "UPDATE $table SET $columns WHERE id = {$id}";
         return $this->Execute($sql);
     }
