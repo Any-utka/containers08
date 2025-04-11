@@ -9,6 +9,7 @@ class Database {
     }
 
     public function Execute($sql) {
+        echo "[debug] SQL: $sql\n";
         return $this->pdo->exec($sql);
     }
 
@@ -33,12 +34,12 @@ class Database {
 
     public function Update($table, $id, $data) {
         $columns = implode(", ",array_map( function ($v) { return "'$v'"; }, array_values($data)));
-        $sql = "UPDATE $table SET $columns WHERE id = :id";
+        $sql = "UPDATE $table SET $columns WHERE id = {$id}";
         return $this->Execute($sql);
     }
 
     public function Delete($table, $id) {
-        $sql = "DELETE FROM $table WHERE id = :id";
+        $sql = "DELETE FROM $table WHERE id = {$id}";
         return $this->Execute($sql);
     }
 
