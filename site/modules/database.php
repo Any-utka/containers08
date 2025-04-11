@@ -22,48 +22,29 @@ class Database {
         $placeholders = implode(", ", array_map(fn($k) => ":$k", array_keys($data)));
 
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($data as $key => $value) {
-            $stmt->bindValue(":$key", $value);
-        }
-
-        $stmt->execute();
-        return $this->pdo->lastInsertId();
+       
+        return $this->Execute($sql);
     }
 
     public function Read($table, $id) {
         $sql = "SELECT * FROM $table WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->Fetch( $sql);
     }
 
     public function Update($table, $id, $data) {
         $columns = implode(", ", array_map(fn($k) => "$k = :$k", array_keys($data)));
         $sql = "UPDATE $table SET $columns WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($data as $key => $value) {
-            $stmt->bindValue(":$key", $value);
-        }
-
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-        return $stmt->execute();
+        return $this->Execute($sql);
     }
 
     public function Delete($table, $id) {
         $sql = "DELETE FROM $table WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-        return $stmt->execute();
+        return $this->Execute($sql);
     }
 
     public function Count($table) {
         $sql = "SELECT COUNT(*) as cnt FROM $table";
-        $stmt = $this->pdo->query($sql);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $this->Fetch($sql);
         return $row['cnt'] ?? 0;
     }
 }
