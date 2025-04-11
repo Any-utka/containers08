@@ -27,7 +27,7 @@ class Database {
     }
 
     public function Read($table, $id) {
-        $sql = "SELECT * FROM $table WHERE id = :id";
+        $sql = "SELECT * FROM $table WHERE id = {$id}";
         return $this->Fetch( $sql)[0] ?? [];
     }
 
