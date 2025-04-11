@@ -24,7 +24,7 @@ function testDbCount() {
     global $config;
     $db = new Database($config["db"]["path"]);
     $count = $db->Count('page');
-    return assertExpression($count == 3, 'Correct count of pages', 'Incorrect count of pages');
+    return assertExpression($count == 3, 'Correct count of pages', 'Incorrect count of pages '.$count);
 }
 
 // Test 3: Test create method
