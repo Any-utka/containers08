@@ -19,7 +19,7 @@ class Database {
 
     public function Create($table, $data) {
         $columns = implode(", ", array_keys($data));
-        $placeholders = implode(", ", array_map(fn($k) => ":$k", array_keys($data)));
+        $placeholders = implode(", ", array_values($data));
 
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
        
@@ -32,7 +32,7 @@ class Database {
     }
 
     public function Update($table, $id, $data) {
-        $columns = implode(", ", array_map(fn($k) => "$k = :$k", array_keys($data)));
+        $columns = implode(", ", array_values($data));
         $sql = "UPDATE $table SET $columns WHERE id = :id";
         return $this->Execute($sql);
     }
