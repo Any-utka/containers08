@@ -28,11 +28,11 @@ class Database {
 
     public function Read($table, $id) {
         $sql = "SELECT * FROM $table WHERE id = :id";
-        return $this->Fetch( $sql);
+        return $this->Fetch( $sql)[0] ?? [];
     }
 
     public function Update($table, $id, $data) {
-        $columns = implode(", ", array_values($data));
+        $columns = implode(", ",array_map( function ($v) { return "'$v'"; }, array_values($data)));
         $sql = "UPDATE $table SET $columns WHERE id = :id";
         return $this->Execute($sql);
     }
