@@ -45,6 +45,6 @@ class Database {
     public function Count($table) {
         $sql = "SELECT COUNT(*) as cnt FROM $table";
         $row = $this->Fetch($sql);
-        return $row['cnt'] ?? 0;
+        return $row[0]['cnt'] ?? 0;
     }
 }
