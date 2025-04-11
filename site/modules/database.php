@@ -19,7 +19,7 @@ class Database {
 
     public function Create($table, $data) {
         $columns = implode(", ", array_keys($data));
-        $placeholders = implode(", ", array_values($data));
+        $placeholders = implode(", ", array_map( function ($v) { return "'$v'"; }, array_values($data)));
 
         $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
        
